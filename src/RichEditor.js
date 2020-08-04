@@ -6,7 +6,7 @@ import {
   PixelRatio,
   Platform,
   StyleSheet,
-  View
+  View,
 } from "react-native";
 import { HTML } from "./editor";
 
@@ -20,7 +20,7 @@ export default class RichTextEditor extends Component {
 
   static defaultProps = {
     contentInset: {},
-    style: {}
+    style: {},
   };
 
   constructor(props) {
@@ -33,7 +33,7 @@ export default class RichTextEditor extends Component {
     this.state = {
       selectionChangeListeners: [],
       keyboardHeight: 0,
-      height: 0
+      height: 0,
     };
     this.focusListeners = [];
   }
@@ -83,7 +83,7 @@ export default class RichTextEditor extends Component {
     // this.setEditorHeight(editorAvailableHeight);
   }
 
-  onMessage = event => {
+  onMessage = (event) => {
     try {
       const message = JSON.parse(event.nativeEvent.data);
       switch (message.type) {
@@ -103,13 +103,13 @@ export default class RichTextEditor extends Component {
           break;
         case messages.SELECTION_CHANGE: {
           const items = message.data;
-          this.state.selectionChangeListeners.map(listener => {
+          this.state.selectionChangeListeners.map((listener) => {
             listener(items);
           });
           break;
         }
         case messages.CONTENT_FOCUSED: {
-          this.focusListeners.map(da => da());
+          this.focusListeners.map((da) => da());
           break;
         }
         case messages.OFFSET_HEIGHT:
@@ -121,7 +121,7 @@ export default class RichTextEditor extends Component {
     }
   };
 
-  setWebHeight = height => {
+  setWebHeight = (height) => {
     console.log(height);
     if (height !== this.state.height) {
       this.setState({ height });
@@ -131,11 +131,11 @@ export default class RichTextEditor extends Component {
   renderWebView = () => (
     <WebView
       useWebKit={true}
-      scrollEnabled={false}
+      scrollEnabled={true}
       {...this.props}
       hideKeyboardAccessoryView={true}
       keyboardDisplayRequiresUserAction={false}
-      ref={r => {
+      ref={(r) => {
         this.webviewBridge = r;
       }}
       onMessage={this.onMessage}
@@ -162,7 +162,7 @@ export default class RichTextEditor extends Component {
         <View
           style={[
             this.props.style,
-            { height: height || Dimensions.get("window").height * 0.7 }
+            { height: height || Dimensions.get("window").height * 0.7 },
           ]}
         >
           {this.renderWebView()}
@@ -187,8 +187,8 @@ export default class RichTextEditor extends Component {
     this.setState({
       selectionChangeListeners: [
         ...this.state.selectionChangeListeners,
-        listener
-      ]
+        listener,
+      ],
     });
   }
 
@@ -219,7 +219,7 @@ export default class RichTextEditor extends Component {
     that.props.editorInitializedCallback &&
       that.props.editorInitializedCallback();
 
-    this.intervalHeight = setInterval(function() {
+    this.intervalHeight = setInterval(function () {
       that._sendAction(actions.updateHeight);
     }, 200);
   }
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)"
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   innerModal: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -254,31 +254,31 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     alignSelf: "stretch",
     margin: 40,
-    borderRadius: PlatformIOS ? 8 : 2
+    borderRadius: PlatformIOS ? 8 : 2,
   },
   button: {
     fontSize: 16,
     color: "#4a4a4a",
-    textAlign: "center"
+    textAlign: "center",
   },
   inputWrapper: {
     marginTop: 5,
     marginBottom: 10,
     borderBottomColor: "#4a4a4a",
-    borderBottomWidth: PlatformIOS ? 1 / PixelRatio.get() : 0
+    borderBottomWidth: PlatformIOS ? 1 / PixelRatio.get() : 0,
   },
   inputTitle: {
-    color: "#4a4a4a"
+    color: "#4a4a4a",
   },
   input: {
     height: PlatformIOS ? 20 : 40,
-    paddingTop: 0
+    paddingTop: 0,
   },
   lineSeparator: {
     height: 1 / PixelRatio.get(),
     backgroundColor: "#d5d5d5",
     marginLeft: -20,
     marginRight: -20,
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
