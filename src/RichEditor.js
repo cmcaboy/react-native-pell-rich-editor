@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { WebView } from "react-native-webview";
+import AutoHeightWebView from "react-native-autoheight-webview";
 import { actions, messages } from "./const";
 import {
   Dimensions,
@@ -128,26 +129,47 @@ export default class RichTextEditor extends Component {
     }
   };
 
-  renderWebView = () => (
-    <WebView
-      useWebKit={true}
-      scrollEnabled={true}
-      {...this.props}
-      hideKeyboardAccessoryView={true}
-      keyboardDisplayRequiresUserAction={false}
-      ref={(r) => {
-        this.webviewBridge = r;
-      }}
-      onMessage={this.onMessage}
-      originWhitelist={["*"]}
-      dataDetectorTypes={"none"}
-      domStorageEnabled={false}
-      bounces={false}
-      javaScriptEnabled={true}
-      source={{ html: HTML }}
-      onLoad={() => this.init()}
-    />
-  );
+  renderWebView = () => {
+    return Platform.OS === "ios" ? (
+      <WebView
+        useWebKit={true}
+        scrollEnabled={true}
+        {...this.props}
+        hideKeyboardAccessoryView={true}
+        keyboardDisplayRequiresUserAction={false}
+        ref={(r) => {
+          this.webviewBridge = r;
+        }}
+        onMessage={this.onMessage}
+        originWhitelist={["*"]}
+        dataDetectorTypes={"none"}
+        domStorageEnabled={false}
+        bounces={false}
+        javaScriptEnabled={true}
+        source={{ html: HTML }}
+        onLoad={() => this.init()}
+      />
+    ) : (
+      <AutoHeightWebView
+        useWebKit={true}
+        scrollEnabled={false}
+        {...this.props}
+        hideKeyboardAccessoryView={true}
+        keyboardDisplayRequiresUserAction={false}
+        ref={(r) => {
+          this.webviewBridge = r;
+        }}
+        onMessage={this.onMessage}
+        originWhitelist={["*"]}
+        dataDetectorTypes={"none"}
+        domStorageEnabled={false}
+        bounces={false}
+        javaScriptEnabled={true}
+        source={{ html: HTML }}
+        onLoad={() => this.init()}
+      />
+    );
+  };
 
   render() {
     let { height } = this.state;
