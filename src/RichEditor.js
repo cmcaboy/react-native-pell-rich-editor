@@ -130,7 +130,7 @@ export default class RichTextEditor extends Component {
   };
 
   renderWebView = () => {
-    return Platform.OS === "ios" ? (
+    return Platform.OS === "" ? (
       <WebView
         useWebKit={true}
         scrollEnabled={true}
